@@ -1,0 +1,58 @@
+@model List<Wedding>
+<div class="navbar d-flex justify-content-around ">
+    <div class="left fs-3">
+        <p >Welcome @ViewBag.User.FirstName</p>
+    </div>
+    <div class="right">
+        <ul class="d-flex  justify-content-between">
+            <a href="/dashboard" class="nav-item active">Home</a><span class="ms-2 mx-2">|</span>
+            <a href="/wedding" class="nav-item active">Plan a Wedding</a><span class="ms-2 mx-2">|</span>
+            <a href="/logout" class="nav-item active">Logout</a>
+        </ul>
+    </div>
+</div> 
+<hr>
+<h1>Plan a Wedding</h1>
+<div class="container">
+    <table class="table table-striped">
+        ... <thead>
+            <tr>
+                <th scope="col">Wedding of</th>
+                <th scope="col">Date</th>
+                <th scope="col">Guest Count</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in @Model)
+            {
+            <tr>
+                <td><a href="/wedding/@m.WeddingId">@m.WedderOne & @m.WedderTwo</a> </td>
+                <td>@m.Date.ToString("MMM d, yyyy")</td>
+                <td>@m.Guest.Count</td>
+                @if(@m.UserId == ViewBag.User.UserId)
+                {
+                <td><a href="/delete/@m.WeddingId">Delete</a></td>
+                }
+                        else if(@m.Guest.Exists(g=>g.UserId == ViewBag.User.UserId) )
+                        {
+                            <td>
+                            <form action="unrsvp" method="post">
+                                <input type="hidden" name="Wedding_Id" value="@m.WeddingId">
+                                <input type="submit" value="UN-RSVP" class="btn btn-round btn-danger">
+                            </form>
+                            </td>
+                        }
+                        else{
+                            <td>
+                                <form action="rsvp" method="post">
+                                    <input type="hidden" name="Wedding_Id" value="@m.WeddingId">
+                                    <input type="submit" value="RSVP" class="btn btn-round btn-success">
+                                </form>
+                            </td>
+                            }
+            </tr> 
+            }   
+        </tbody>
+    </table>
+</div>

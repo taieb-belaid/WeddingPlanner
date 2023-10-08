@@ -1,0 +1,32 @@
+@model Wedding
+<div class="navbar d-flex justify-content-around ">
+    <div class="left fs-3">
+
+        <p>Welcome @ViewBag.User.FirstName</p>
+
+    </div>
+    <div class="right">
+        <ul class="d-flex  justify-content-between">
+            <a href="/dashboard" class="nav-item active">Home</a><span class="ms-2 mx-2">|</span>
+            <a href="" class="nav-item active">Plan a Wedding</a><span class="ms-2 mx-2">|</span>
+            <a href="/logout" class="nav-item active">Logout</a>
+        </ul>
+        <hr>
+    </div>
+
+</div>
+<hr>
+<h1>@Model.WedderOne & @Model.WedderTwo</h1>
+<h4>Adress: @Model.Adress</h4>
+<div class="border border-dark mt-5" style="width: 200px; height:300px" >
+
+        @foreach (var g in Model.Guest)
+        {
+            <ul>
+                <li>
+                    @g.User.FirstName @g.User.LastName
+                </li>
+            </ul>
+        }
+
+</div>
